@@ -47,12 +47,12 @@ import { getInitialState, ScrambleWordReducer } from '@/05-useReducer/Reducer/Sc
     const handleSkip = () => {
         dispatch({type: 'SKIP_WORD'})
 
-
-    const handlePlayAgain = () => {
+    
+    }
+    const handleplay = () => {
         dispatch({ type: 'START_NEW_GAME', payload: getInitialState() })
-
+        
     };
-}
 
     //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
     if (words.length === 0) {
@@ -182,7 +182,7 @@ import { getInitialState, ScrambleWordReducer } from '@/05-useReducer/Reducer/Sc
                     Saltar ({skipCounter} / {maxSkips})
                 </Button>
                 <Button
-                    //onClick={handlePlayAgain}
+                    onClick={handleplay}
                     variant="outline"
                     className="border-2 border-indigo-300 hover:border-indigo-400 hover:bg-indigo-50 text-indigo-600 transition-colors flex items-center justify-center gap-2"
                 >
