@@ -1,26 +1,37 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import { HookApp } from './HookApp'
-import { TasksApp } from './05-useRef/taskApp'
-import { ScrambleWords } from './05-useRef/gameApp'
-import { ScrambleWordsCopy } from './05-useRef/gameApp copy'
+import { Toaster } from 'sonner'
+
+import { InstagromApp } from './07-useOptimistic/InstagromApp'
+// import { MemoApp } from './06-useMemo/memoApp'
+// import { HookApp } from './HookApp'
+// import { TasksApp } from './05-useRef/taskApp'
+// import { ScrambleWords } from './05-useRef/gameApp'
+// import { ScrambleWordsCopy } from './05-useRef/gameApp copy'
 // import { TrafficLight } from './useState/TrafficLight'
 
 // import { TrafficLightEffect } from './useEffect/TrafficLightEffect'
 
+// import { MemoCounter } from './06-useMemo/MemoCounter'
 // import { PokemonPage } from './03-Example/PokemonPage'
 // import { FocusScreen } from './04-useReff/FocusScreen'
 // import { TrafficLightEffectHook } from './02-useEffect/TrafficLightEffectHook'
+import './index.css'
+import { ClientInformation } from './08-use-suspense/ClientInformation'
 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <Toaster/>
+    <ClientInformation/>
+    {/* <InstagromApp/> */}
+    {/* <MemoCounter/> */}
+    {/* <MemoApp/> */}
     {/* <FocusScreen/> */}
     {/* <PokemonPage/> */}
     {/* <TrafficLightEffectHook/> */}
     {/* <HookApp/> */}
     {/* <TasksApp/> */}
-    <ScrambleWordsCopy/>
+    {/* <ScrambleWordsCopy/> */}
   </StrictMode>,
 )
