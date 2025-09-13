@@ -8,12 +8,14 @@ const colors = {
 
 //type TrafficLightColor = 'red' | 'yellow' | 'green' 
 
+//& "KEYOF TYPEOF colors" significa que solo puede ser uno de los nombres de colors
 type TrafficLightColor = keyof typeof colors;
 
 export const TrafficLight = () => {
 
   const [Light, setLight] = useState<TrafficLightColor>('red')
 
+  //& SetLight imprime en consola el color anterior con el "prev"
   const onHandleColor = (color: TrafficLightColor) => {
     setLight(( prev) => {
       console.log({prev});

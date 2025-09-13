@@ -13,7 +13,19 @@ import { getTaskInitialState, taskReducer } from '@/05-useReducer/Reducer/taskRe
     // const [todos, setTodos] = useState<Todo[]>([]);
     const [inputValue, setInputValue] = useState('');
 
-    const [state, dispatch] = useReducer(taskReducer, getTaskInitialState())
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+
+        useEffect(() => {
+            function handleMove(e: PointerEvent) {
+                setPosition({ x: e.clientX, y: e.clientY });
+            }
+            window.addEventListener('pointermove', handleMove);
+            return () => {
+                window.removeEventListener('pointermove', handleMove);
+            };
+            }, []);
+        
+        const [state, dispatch] = useReducer(taskReducer, getTaskInitialState())
 
     useEffect(() => {
         localStorage.setItem('task-state', JSON.stringify(state))
@@ -48,6 +60,8 @@ import { getTaskInitialState, taskReducer } from '@/05-useReducer/Reducer/taskRe
     // const totalCount = todos.length;
 
     return (
+        <>
+
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
         <div className="mx-auto max-w-2xl">
             <div className="mb-8 text-center">
@@ -68,11 +82,11 @@ import { getTaskInitialState, taskReducer } from '@/05-useReducer/Reducer/taskRe
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyPress}
                     className="flex-1 border-slate-200 focus:border-slate-400 focus:ring-slate-400"
-                />
+                    />
                 <Button
                     onClick={addTodo}
                     className="bg-slate-800 hover:bg-slate-700 text-white px-4"
-                >
+                    >
                     <Plus className="w-4 h-4" />
                 </Button>
                 </div>
@@ -80,7 +94,7 @@ import { getTaskInitialState, taskReducer } from '@/05-useReducer/Reducer/taskRe
             </Card>
 
             {totalCount > 0 && (
-            <Card className="mb-6 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+                <Card className="mb-6 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
                 <CardHeader className="pb-3">
                 <CardTitle className="text-lg font-semibold text-slate-700">
                     Progreso
@@ -111,7 +125,7 @@ import { getTaskInitialState, taskReducer } from '@/05-useReducer/Reducer/taskRe
             </CardHeader>
             <CardContent>
                 {todos.length === 0 ? (
-                <div className="text-center py-12">
+                    <div className="text-center py-12">
                     <div className="w-16 h-16 mx-auto mb-4 bg-slate-100 rounded-full flex items-center justify-center">
                     <Check className="w-8 h-8 text-slate-400" />
                     </div>
@@ -121,16 +135,16 @@ import { getTaskInitialState, taskReducer } from '@/05-useReducer/Reducer/taskRe
                     </p>
                 </div>
                 ) : (
-                <div className="space-y-2">
+                    <div className="space-y-2">
                     {todos.map((todo) => (
-                    <div
+                        <div
                         key={todo.id}
                         className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 ${
-                        todo.completed
+                            todo.completed
                             ? 'bg-slate-50 border-slate-200'
                             : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
                         }`}
-                    >
+                        >
                         <Checkbox
                         checked={todo.completed}
                         onCheckedChange={() => toggleTodo(todo.id)}
@@ -161,5 +175,18 @@ import { getTaskInitialState, taskReducer } from '@/05-useReducer/Reducer/taskRe
             </Card>
         </div>
         </div>
+            <div style={{
+                position: 'absolute',
+                backgroundColor: 'pink',
+                borderRadius: '50%',
+                opacity: 0.6,
+                transform: `translate(${position.x}px, ${position.y}px)`,
+                pointerEvents: 'none',
+                left: -20,
+                top: -20,
+                width: 40,
+                height: 40,
+            }}/>
+        </>
     );
-    };
+};

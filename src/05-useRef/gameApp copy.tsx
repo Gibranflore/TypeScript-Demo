@@ -22,6 +22,18 @@ import { getInitialState, ScrambleWordReducer } from '@/05-useReducer/Reducer/Sc
     const {currentWord,errorCounter,guess,isGameOver,maxAllowErrors,
         maxSkips,points,scrambledWord,skipCounter,words,totalWord,} = state;
 
+        const [position, setPosition] = useState({ x: 0, y: 0 });
+
+        useEffect(() => {
+            function handleMove(e: PointerEvent) {
+                setPosition({ x: e.clientX, y: e.clientY });
+            }
+            window.addEventListener('pointermove', handleMove);
+            return () => {
+                window.removeEventListener('pointermove', handleMove);
+            };
+            }, []);
+
         useEffect(() => {
             if(points === 0 )return;
             var triangle = confetti.shapeFromPath({ path: 'M0 10 L5 0 L10 10z' });
@@ -78,6 +90,7 @@ import { getInitialState, ScrambleWordReducer } from '@/05-useReducer/Reducer/Sc
     }
 
     return (
+        <>
         <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
         <div className="w-full max-w-md mx-auto">
             {/* Header */}
@@ -98,20 +111,20 @@ import { getInitialState, ScrambleWordReducer } from '@/05-useReducer/Reducer/Sc
                 <h2 className="text-center text-sm font-medium text-gray-500 mb-4 uppercase tracking-wide flex items-center justify-center gap-2">
                     Palabra Desordenada
                     {isGameOver && (
-                    <span className="text-red-500 text-xl"> {currentWord}</span>
+                        <span className="text-red-500 text-xl"> {currentWord}</span>
                     )}
                 </h2>
 
                 <div className="flex justify-center gap-2 mb-6">
                     {scrambledWord.split('').map((letter, index) => (
-                    <div
+                        <div
                         key={index}
                         className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg transform hover:scale-105 transition-transform duration-200"
                         style={{
-                        animationDelay: `${index * 0.1}s`,
-                        animation: 'fadeInUp 0.6s ease-out forwards',
+                            animationDelay: `${index * 0.1}s`,
+                            animation: 'fadeInUp 0.6s ease-out forwards',
                         }}
-                    >
+                        >
                         {letter}
                     </div>
                     ))}
@@ -125,7 +138,7 @@ import { getInitialState, ScrambleWordReducer } from '@/05-useReducer/Reducer/Sc
                     <label
                         htmlFor="guess"
                         className="block text-sm font-medium text-gray-700 mb-2"
-                    >
+                        >
                         Adivina la palabra
                     </label>
                     <Input
@@ -133,16 +146,16 @@ import { getInitialState, ScrambleWordReducer } from '@/05-useReducer/Reducer/Sc
                         type="text"
                         value={guess}
                         onChange={(e) => {
-                        dispatch({type: 'SET_GUESS',payload: e.target.value})
-                        //setGuess(e.target.value.toUpperCase().trim())
-                        //console.log(e.target.value);
-                        
+                            dispatch({type: 'SET_GUESS',payload: e.target.value})
+                            //setGuess(e.target.value.toUpperCase().trim())
+                            //console.log(e.target.value);
+                            
                         }}
                         placeholder="Ingresa tu palabra..."
                         className="text-center text-lg font-semibold h-12 border-2 border-indigo-200 focus:border-indigo-500 transition-colors"
                         maxLength={scrambledWord.length}
                         disabled={isGameOver}
-                    />
+                        />
                     </div>
                     <Button
                     type="submit"
@@ -177,7 +190,7 @@ import { getInitialState, ScrambleWordReducer } from '@/05-useReducer/Reducer/Sc
                     variant="outline"
                     className="border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
                     disabled={isGameOver || skipCounter >= maxSkips}
-                >
+                    >
                     <SkipForward className="w-4 h-4" />
                     Saltar ({skipCounter} / {maxSkips})
                 </Button>
@@ -185,7 +198,7 @@ import { getInitialState, ScrambleWordReducer } from '@/05-useReducer/Reducer/Sc
                     onClick={handleplay}
                     variant="outline"
                     className="border-2 border-indigo-300 hover:border-indigo-400 hover:bg-indigo-50 text-indigo-600 transition-colors flex items-center justify-center gap-2"
-                >
+                    >
                     <Play className="w-4 h-4" />
                     Jugar de nuevo
                 </Button>
@@ -204,5 +217,18 @@ import { getInitialState, ScrambleWordReducer } from '@/05-useReducer/Reducer/Sc
             </div>
         </div>
         </div>
+        <div style={{
+                position: 'absolute',
+                backgroundColor: 'pink',
+                borderRadius: '50%',
+                opacity: 0.6,
+                transform: `translate(${position.x}px, ${position.y}px)`,
+                pointerEvents: 'none',
+                left: -20,
+                top: -20,
+                width: 40,
+                height: 40,
+            }}/>
+        </>
     );
     };
