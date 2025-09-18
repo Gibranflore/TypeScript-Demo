@@ -9,8 +9,8 @@ export interface ScrambleState {
     points:         number
     scrambledWord:  string
     skipCounter:    number
-    words:          string[]
     totalWord:      number
+    words:          string[]
 }
 
 export type ScrableReducer = {

@@ -1,5 +1,5 @@
 import { use, type Usable } from "react"
-import { getUserAction, type user } from "./api/get-user-action"
+import { type user } from "./api/get-user-action"
 
 interface Props {
     getUser: Usable<user>
